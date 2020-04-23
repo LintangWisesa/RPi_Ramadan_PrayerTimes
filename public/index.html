@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lintang RPi Ramadhan</title>
+    
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+   
+    <!-- iconify -->
+    <script src="https://code.iconify.design/1/1.0.3/iconify.min.js"></script>
+
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/4a822b1d6a.js" crossorigin="anonymous"></script>
+ 
+    <!-- style & web socket -->
+    <link href="/styles.css" rel="stylesheet"/>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js'></script>
+
+</head>
+<body>
+    <h1 class="mt-4">
+        <i class="iconify" data-icon="logos-raspberry-pi" data-inline="true"></i>
+        رمضان Prayer Times
+        <!-- button trigger modal -->
+        <button type="button" class="btn-sm btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+            <i class="fas fa-cog"></i>&nbsp;
+            Settings
+        </button>
+    </h1>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">
+                <i class="iconify" data-icon="logos-raspberry-pi" data-inline="true"></i>
+                Insert city name (Indonesia only)
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="form-group row">
+                    <!-- kota -->
+                    <div class="col-sm-12">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-map-marker-alt"></i>
+                              </div>
+                            </div>
+                            <input id="message" class="form-control form-control-lg" 
+                            type="text" placeholder="Write your city name ..."/>    
+                        </div>
+                    </div>
+                </div>
+                <div id="feedback"></div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="send" type="button" class="btn btn-success">
+                    <i class="fas fa-check-circle"></i>&nbsp;
+                    Apply
+                </button>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <!-- output -->
+    <div class="container" style="text-align: left;">
+        
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 id="kota" class="display-4">Jakarta</h1>
+                <p class="lead">
+                    <b id="tanggalM"></b>
+                    /
+                    <b id="tanggalH"></b>
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <h1 id='jam' style='text-align:right' class='display-4 text-right'></h1>
+            </div>
+        </div>
+        
+        <div class="row mb-4 mt-4">
+            <!-- Imsak -->
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="card text-white" style="background-color: black;">
+                    <img class="card-img" 
+                    src="img/a0.png" 
+                    alt="Card image">
+                    <div class="card-img-overlay">
+                        <h1 class="card-title">Imsak إمساك</h1>
+                        <h1 id="imsak" class="text-right card-title"></h1>
+                    </div>
+                </div>
+            </div>
+            <!-- Subuh -->
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="card text-white" style="background-color: black;">
+                    <img class="card-img" 
+                    src="img/a1.png" 
+                    alt="Card image">
+                    <div class="card-img-overlay">
+                        <h1 class="card-title">Subuh الصبح</h1>
+                        <h1 id="subuh" class="text-right card-title"></h1>
+                    </div>
+                </div>
+            </div>
+            <!-- Dhuhur -->
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="card text-white" style="background-color: black;">
+                    <img class="card-img" 
+                    src="img/a2.png" 
+                    alt="Card image">
+                    <div class="card-img-overlay">
+                        <h1 class="card-title">Dzuhur الظهر</h1>
+                        <h1 id="dzuhur" class="text-right card-title"></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Asar -->
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="card text-white" style="background-color: black;">
+                    <img class="card-img" 
+                    src="img/a3.png" 
+                    alt="Card image">
+                    <div class="card-img-overlay">
+                        <h1 class="card-title">Asar العصر</h1>
+                        <h1 id="asar" class="text-right card-title"></h1>
+                    </div>
+                </div>
+            </div>
+            <!-- Magrib -->
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="card text-white" style="background-color: black;">
+                    <img class="card-img" 
+                    src="img/a4.png" 
+                    alt="Card image">
+                    <div class="card-img-overlay">
+                        <h1 class="card-title">Maghrib المغرب</h1>
+                        <h1 id="magrib" class="text-right card-title"></h1>
+                    </div>
+                </div>
+            </div>
+            <!-- Isya -->
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="card text-white" style="background-color: black;">
+                    <img class="card-img" 
+                    src="img/a5.png" 
+                    alt="Card image">
+                    <div class="card-img-overlay">
+                        <h1 class="card-title">Isya العشاء</h1>
+                        <h1 id="isya" class="text-right card-title"></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <marquee class="mt-5" direction="right">
+        <h2>يَا أَيُّهَا الَّذِينَ آمَنُوا كُتِبَ عَلَيْكُمُ الصِّيَامُ كَمَا كُتِبَ عَلَى الَّذِينَ مِنْ قَبْلِكُمْ لَعَلَّكُمْ تَتَّقُونَ</h2>
+    </marquee>
+
+    <script src='/chat.js'></script>
+    <script src='/clock.js'></script>
+    <script src="/getapi.js"></script>
+</body>
+</html>
