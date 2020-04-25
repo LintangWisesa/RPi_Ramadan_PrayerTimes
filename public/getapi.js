@@ -1,4 +1,4 @@
-// Initial data: Jakarta
+// get api for initial data: Jakarta city
 
 var kota = document.getElementById('kota')
 var tanggalM = document.getElementById('tanggalM')

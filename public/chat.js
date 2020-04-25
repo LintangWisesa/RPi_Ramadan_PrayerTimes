@@ -2,7 +2,8 @@
 
 // Make connection
 var socket = io.connect('http://localhost:1234/')
-// var socket = io.connect('http://192.168.43.163:1234') // change with your RPi IP address
+// var socket = io.connect('http://192.168.43.163:1234') 
+// change with your RPi IP address
 
 // Get value from html
 var message = document.getElementById('message')
@@ -37,7 +38,7 @@ socket.on('chat', (data)=>{
     kota.innerHTML = `${data.message}`
     feedback.innerHTML = ''
 
-    // get api
+    // get api for incoming city
     var url = `http://api.aladhan.com/v1/timingsByCity?city=${data.message}&country=Indonesia&method=5`
 
     fetch(url).then(function (response) {

@@ -1,3 +1,5 @@
+// show realtime clock 
+
 var clock = document.getElementById('jam')
 
 renderJam = function(){
