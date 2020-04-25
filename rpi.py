@@ -20,6 +20,8 @@ asar = output['Asr']
 magrib = output['Maghrib']
 isya = output['Isha']
 print(imsak, subuh, duhur, asar, magrib, isya)
+# print(imsak)
+# print(type(imsak))
 
 while True:
     # time now
@@ -27,9 +29,9 @@ while True:
     jam = x.strftime("%H") # jam sistem 24
     menit = x.strftime("%M") # menit
     detik = x.strftime("%S") # detik
-    
+
     print(f'{jam}:{menit}:{detik}')
-    if jam == str(a) and menit == str(b):
+    if (f'{jam}:{menit}' == subuh) or (f'{jam}:{menit}' == duhur) or (f'{jam}:{menit}' == asar) or (f'{jam}:{menit}' == magrib) or (f'{jam}:{menit}' == isya):
         print('Waktunya azan')
         mixer.music.play()
         while mixer.music.get_busy(): 
