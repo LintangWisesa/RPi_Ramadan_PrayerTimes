@@ -8,7 +8,7 @@ mixer.init()
 mixer.music.load('C:/Users/HP/Downloads/RasPi_Ramadhan_INDONESIA/azan.mp3')
 
 # request aladhan api
-url = 'http://api.aladhan.com/v1/timingsByCity?city=Jakarta&country=Indonesia&method=5'
+url = 'http://api.aladhan.com/v1/timingsByCity?city=Tangerang Selatan&country=Indonesia&method=5'
 data = requests.get(url)
 output = data.json()
 output = output['data']['timings']
